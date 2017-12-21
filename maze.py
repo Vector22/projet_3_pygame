@@ -26,22 +26,30 @@ windows = pygame.display.set_mode((c.windowsSide, c.windowsSide))
 icon = pim.load(c.iconPicture)
 pygame.display.set_icon(icon)
 #title
-pygame.display.set_caption(c.windowstitle)
+pygame.display.set_caption(c.windowsTitle)
+#background end color
+endColor = (100, 100, 0)
+#font to writte if victory or defeat
+victoryFont = pygame.font.Font(None, 40)
+victoryText = victoryFont.render("Victory! You escaped.", 1, (255, 255, 255))
+defeatFont = pygame.font.Font(None, 40)
+defeatText = defeatFont.render("You're dead, party lost.", 1, (255, 0, 0))
 #font to writte in the menu screen
 font = pygame.font.Font(None, 50)
-text = font.render("Chose a level", 1, (0, 0, 200))
+text = font.render("Choose a level", 1, (0, 0, 200))
 font1 = pygame.font.Font(None, 50)
 text1 = font1.render("1: Easy", 1, (0, 200, 0))
 font2 = pygame.font.Font(None, 50)
-text2 = font2.render("2: Difficult", 1, (200, 0, 0))
+text2 = font2.render("2: Difficult", 1, (0, 200, 0))
 
 #main loop
 loop = True
+pygame.key.set_repeat(50, 50)
 while loop:
     #print the menu screen
     windows.blit(text, (110, 80))
-    windows.blit(text1, (150, 200))
-    windows.blit(text2, (150, 300))
+    windows.blit(text1, (150, 150))
+    windows.blit(text2, (150, 220))
     #refresh the screen
     pygame.display.flip()
 
@@ -73,7 +81,7 @@ while loop:
 
     #we check that the player has made a level choice
     #to not load if he leaves
-    if choice != 0:
+    if choice is not 0:
         #load the background image
         background = pim.load(c.bgPicture).convert()
         #define the door position
@@ -83,16 +91,11 @@ while loop:
         level = Level(choice)
         level.generate()
         #create the utilities objects
+        #and append them to a table
         tabUtilities = []
-        u1 = Utility('S', level)
-        u2 = Utility('E', level)
-        u3 = Utility('N', level)
-        tabUtilities.append(u1)
-        tabUtilities.append(u2)
-        tabUtilities.append(u3)
-        #place them in the labyrinth randomly
-        for utility in tabUtilities:
-            utility.putRandomly()
+        tabUtilities.append(Utility('S', level))
+        tabUtilities.append(Utility('E', level))
+        tabUtilities.append(Utility('N', level))
         #create the character
         bot = Bot(c.heroPicture, level)
         #print the labyrinth
@@ -135,17 +138,12 @@ while loop:
 
         #back up to menu if victory or defeat
         if (bot.y, bot.x) == door and len(bot.bag) == 3:
-            windows.blit(background, (0, 0))
+            windows.fill(endColor)
+            windows.blit(victoryText, (75, 300))
             pygame.display.flip()
-            print(bot.bag)
-            print("You are running away")
-            print("Victory !!!\n\n")
             repeatGame = False
         if (bot.y, bot.x) == door and len(bot.bag) < 3:
-            windows.blit(background, (0, 0))
+            windows.fill(endColor)
+            windows.blit(defeatText, (75, 300))
             pygame.display.flip()
-            print(bot.bag)
-            print("It's missing one or more utilities")
-            print("and you are in front of the guardian...")
-            print("He has killed you... Party LOST !\n\n")
             repeatGame = False

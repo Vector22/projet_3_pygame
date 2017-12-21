@@ -14,5 +14,5 @@ etherPicture = "sprites/ether.png"
 needlePicture = "sprites/needle.png"
 
 #windows personnalisation
-windowstitle = "MacGyver must flee"
+windowsTitle = "MacGyver must flee"
 iconPicture = "sprites/macgyver.png"

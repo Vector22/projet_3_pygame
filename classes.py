@@ -1,6 +1,8 @@
 """Modul who contain the program class"""
 import pygame
 from pygame.locals import *
+from random import randrange
+
 
 import constants as c
 
@@ -23,7 +25,7 @@ class Level:
             for line in myFile:
                 lineLevel = []  # hold on the file lines
                 for char in line:
-                    if char != '\n':  # not EOF
+                    if char is not '\n':  # not EOF
                         lineLevel.append(char)
                 mapLevel.append(lineLevel)
             self.myMape = mapLevel  # save the generated level
@@ -48,17 +50,17 @@ class Level:
                 #calculate the real position in pixel
                 x = numCase * c.spriteSize
                 y = numLine * c.spriteSize
-                if sprite == '#':  # wall = '#'
+                if sprite is '#':  # wall = '#'
                     windows.blit(wall, (x, y))
-                elif sprite == 'R':  # hero
+                elif sprite is 'R':  # hero
                     windows.blit(robot.character, (x, y))
-                elif sprite == 'G':  # the guardian
+                elif sprite is 'G':  # the guardian
                     windows.blit(guardian, (x, y))
-                elif sprite == 'S':  # syringue tube
+                elif sprite is 'S':  # syringue tube
                     windows.blit(syringue, (x, y))
-                elif sprite == 'N':  # needle
+                elif sprite is 'N':  # needle
                     windows.blit(needle, (x, y))
-                elif sprite == 'E':  # ether
+                elif sprite is 'E':  # ether
                     windows.blit(ether, (x, y))
                 numCase += 1
             numLine += 1
@@ -86,7 +88,7 @@ class Bot:
             if self.x < (c.nbSideCase - 1):
                 #verifies if the destination case
                 #is'nt a wall
-                if self.level.myMape[self.y][self.x + 1] != '#':
+                if self.level.myMape[self.y][self.x + 1] is not '#':
                     #if an utility is found, we pick it of
                     for utility in tabUtilities:
                         if self.level.myMape[self.y][self.x + 1]\
@@ -107,7 +109,7 @@ class Bot:
         #moving left
         if sens == 'gauche':
             if self.x > 0:
-                if self.level.myMape[self.y][self.x - 1] != '#':
+                if self.level.myMape[self.y][self.x - 1] is not '#':
                     #if an utility is found, we pick it of
                     for utility in tabUtilities:
                         if self.level.myMape[self.y][self.x - 1]\
@@ -123,7 +125,7 @@ class Bot:
         #moving up
         if sens == 'haut':
             if self.y > 0:
-                if self.level.myMape[self.y - 1][self.x] != '#':
+                if self.level.myMape[self.y - 1][self.x] is not '#':
                     #if an utility is found, we pick it of
                     for utility in tabUtilities:
                         if self.level.myMape[self.y - 1][self.x]\
@@ -139,7 +141,7 @@ class Bot:
         #moving down
         if sens == 'bas':
             if self.y < (c.nbSideCase - 1):
-                if self.level.myMape[self.y + 1][self.x] != '#':
+                if self.level.myMape[self.y + 1][self.x] is not '#':
                     #if an utility is found, we pick it of
                     for utility in tabUtilities:
                         if self.level.myMape[self.y + 1][self.x]\
@@ -171,16 +173,16 @@ class Utility:
         self.piy = 0
         self.name = name  # a character that represent the object
         self.level = level
+        #put the utility randomly
+        self.putRandomly()
 
     def putRandomly(self):
         """Method for randomly inserting an object
         into the labyrinth"""
 
-        from random import randrange
-
         self.x, self.y = randrange(c.nbSideCase), randrange(c.nbSideCase)
         #if we are not on an empty space, here 0
-        while(self.level.myMape[self.y][self.x] != '0'):
+        while(self.level.myMape[self.y][self.x] is not '0'):
             self.x, self.y = randrange(c.nbSideCase), randrange(c.nbSideCase)
         #if we find an adequate place
         self.level.myMape[self.x][self.y] = self.name  # insert it
