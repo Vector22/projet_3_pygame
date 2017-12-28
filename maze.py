@@ -7,7 +7,7 @@ have pick up objects that will allow him to fall asleep
 the guard and to flee
 
 files used
-classes.py, maze.py, maps/level1.txt, maps/level2.txt
+classes.py, constants.py, maze.py, maps/level1.txt, maps/level2.txt
 """
 import pygame
 from pygame.locals import *
@@ -28,11 +28,12 @@ pygame.display.set_icon(icon)
 #title
 pygame.display.set_caption(c.windowsTitle)
 #background end color
-endColor = (100, 100, 0)
+endWinColor = (18, 177, 224)
+endLoseColor = (146, 37, 95)
 #font to writte if victory or defeat
-victoryFont = pygame.font.Font(None, 40)
+victoryFont = pygame.font.Font(None, 50)
 victoryText = victoryFont.render("Victory! You escaped.", 1, (255, 255, 255))
-defeatFont = pygame.font.Font(None, 40)
+defeatFont = pygame.font.Font(None, 50)
 defeatText = defeatFont.render("You're dead, party lost.", 1, (255, 0, 0))
 #font to writte in the menu screen
 font = pygame.font.Font(None, 50)
@@ -44,8 +45,11 @@ text2 = font2.render("2: Difficult", 1, (0, 200, 0))
 
 #main loop
 loop = True
-pygame.key.set_repeat(50, 50)
+pygame.key.set_repeat(200, 250)
 while loop:
+    #load the menu background image
+    background = pim.load(c.menuPicture).convert()
+    windows.blit(background, (0, 0))
     #print the menu screen
     windows.blit(text, (110, 80))
     windows.blit(text1, (150, 150))
@@ -56,6 +60,7 @@ while loop:
     repeatMenu = True  # loop variables
     repeatGame = True
 
+    #repeat loop
     while repeatMenu:
         #limit the loop speed
         pygame.time.Clock().tick(20)
@@ -118,18 +123,18 @@ while loop:
                 #we only return to the menu If the user press Esc
                 if even.key == K_ESCAPE:
                     repeatGame = False
-            #moving the hero
-            elif even.key == K_DOWN:
-                bot.move('bas', tabUtilities)
+                #moving the hero
+                elif even.key == K_DOWN:
+                    bot.move('bas', tabUtilities)
 
-            elif even.key == K_UP:
-                bot.move('haut', tabUtilities)
+                elif even.key == K_UP:
+                    bot.move('haut', tabUtilities)
 
-            elif even.key == K_LEFT:
-                bot.move('gauche', tabUtilities)
+                elif even.key == K_LEFT:
+                    bot.move('gauche', tabUtilities)
 
-            elif even.key == K_RIGHT:
-                bot.move('droite', tabUtilities)
+                elif even.key == K_RIGHT:
+                    bot.move('droite', tabUtilities)
 
         #print the labyrinth with news positions
         windows.blit(background, (0, 0))
@@ -138,12 +143,15 @@ while loop:
 
         #back up to menu if victory or defeat
         if (bot.y, bot.x) == door and len(bot.bag) == 3:
-            windows.fill(endColor)
-            windows.blit(victoryText, (75, 300))
+            windows.fill(endWinColor)
+            windows.blit(victoryText, (30, 200))
             pygame.display.flip()
+            #mark a pause of 4 seconds to print the final result
+            pygame.time.delay(4000)
             repeatGame = False
         if (bot.y, bot.x) == door and len(bot.bag) < 3:
-            windows.fill(endColor)
-            windows.blit(defeatText, (75, 300))
+            windows.fill(endLoseColor)
+            windows.blit(defeatText, (30, 200))
             pygame.display.flip()
+            pygame.time.delay(4000)
             repeatGame = False

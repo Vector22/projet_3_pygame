@@ -5,6 +5,7 @@ spriteSize = 30
 windowsSide = nbSideCase * spriteSize
 
 #list of the game pictures
+menuPicture = "sprites/bg1.jpg"
 bgPicture = "sprites/bg.jpg"
 wallPicture = "sprites/wall.png"
 heroPicture = "sprites/macgyver.png"
