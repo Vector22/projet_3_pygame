@@ -162,7 +162,7 @@ class Bot:
             #update the object state
             utility.isPicked(True)
 
-	def listUtility(self, windows):
+    def listUtility(self, windows):
         """Method who display the number of utilities remaining"""
         remainUtility = c.nbUtilities - len(self.bag)
         #the message to show
