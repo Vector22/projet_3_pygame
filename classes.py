@@ -162,6 +162,17 @@ class Bot:
             #update the object state
             utility.isPicked(True)
 
+	def listUtility(self, windows):
+        """Method who display the number of utilities remaining"""
+        remainUtility = c.nbUtilities - len(self.bag)
+        #the message to show
+        message = "{} utility(ies) found; {} remaining".\
+            format(len(self.bag), remainUtility)
+        messageFont = pygame.font.Font(None, 20)
+        messageText = messageFont.render(message, 1, (85, 255, 255))
+        #insert the message in the pygame windows
+        windows.blit(messageText, (250, 6))
+
 
 class Utility:
     """Class to create some utilities"""

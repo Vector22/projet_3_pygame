@@ -139,6 +139,8 @@ while loop:
         #print the labyrinth with news positions
         windows.blit(background, (0, 0))
         level.show(bot, windows)
+		#print the utilities state
+        bot.listUtility(windows)
         pygame.display.flip()
 
         #back up to menu if victory or defeat

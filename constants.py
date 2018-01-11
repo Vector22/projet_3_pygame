@@ -17,3 +17,6 @@ needlePicture = "sprites/needle.png"
 #windows personnalisation
 windowsTitle = "MacGyver must flee"
 iconPicture = "sprites/macgyver.png"
+
+#Total number of utilities
+nbUtilities = 3
